@@ -1,7 +1,7 @@
 #
 # Copyright 2011-2015 NVIDIA Corporation. All rights reserved
 # 
-INCLUDES=-I../../include
+INCLUDES=-I../../include -I${CUDA_HOME}/extras/CUPTI/include
 
 ifndef OS
  OS   := $(shell uname)
@@ -10,7 +10,7 @@ endif
 
 FLAGS= -Xcompiler "-fopenmp -g" -std=c++11 -g
 
-ARCH= -arch sm_52
+ARCH= -arch sm_80
 
 ifeq ($(OS),Windows_NT)
     export PATH := $(PATH):../../libWin32:../../libx64
@@ -22,7 +22,7 @@ else
         LIBS= -Xlinker -framework -Xlinker cuda -L ../../lib -lcupti
     else
         export LD_LIBRARY_PATH := $(LD_LIBRARY_PATH):../../lib:../../lib64
-        LIBS= -lcuda -L ../../lib -L ../../lib64 -lcupti
+        LIBS= -lcuda -L ../../lib -L ../../lib64 -lcupti -L${CUDA_HOME}/extras/CUPTI/lib64
     endif
     OBJ = o
 endif
